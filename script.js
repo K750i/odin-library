@@ -33,18 +33,21 @@ const readCheckbox = document.querySelector('#read');
 const deleteBtnText = '-';
 
 const displayBooks = function (list) {
-  const books = list.reduce((fragment, curBook) => {
+  const books = list.reduce((fragment, { id, title, author, rating, pages, read }) => {
     const tr = document.createElement('tr');
-    const button = document.createElement('button');
+    const readButton = document.createElement('button');
+    const delButton = document.createElement('button');
 
-    button.dataset.id = curBook.id;
-    button.setAttribute('type', 'button');
-    tr.appendChild(document.createElement('td')).textContent = curBook.title;
-    tr.appendChild(document.createElement('td')).textContent = curBook.author;
-    tr.appendChild(document.createElement('td')).textContent = curBook.rating;
-    tr.appendChild(document.createElement('td')).textContent = curBook.pages;
-    tr.appendChild(document.createElement('td')).textContent = curBook.read ? 'Read' : 'Not Read';
-    tr.appendChild(document.createElement('td')).appendChild(button).textContent = deleteBtnText;
+    readButton.dataset.id = id;
+    readButton.setAttribute('type', 'button');
+    delButton.dataset.id = id;
+    delButton.setAttribute('type', 'button');
+    tr.appendChild(document.createElement('td')).textContent = title;
+    tr.appendChild(document.createElement('td')).textContent = author;
+    tr.appendChild(document.createElement('td')).textContent = rating;
+    tr.appendChild(document.createElement('td')).textContent = pages;
+    tr.appendChild(document.createElement('td')).appendChild(readButton).textContent = read ? 'Read' : 'Not Read';
+    tr.appendChild(document.createElement('td')).appendChild(delButton).textContent = deleteBtnText;
     fragment.appendChild(tr);
 
     return fragment;
@@ -97,6 +100,14 @@ const resetForm = function () {
   readCheckbox.checked = false;
 }
 
+const setRead = function (e) {
+  if (e.target.textContent !== 'Read' && e.target.textContent !== 'Not Read') return;
+
+  const targetBook = myLibrary.find(book => book.id === parseInt(e.target.dataset.id, 10));
+  targetBook.read = !targetBook.read;
+  e.target.textContent = targetBook.read ? 'Read' : 'Not Read';
+}
+
 const deleteBook = function (e) {
   if (e.target.textContent !== deleteBtnText) return;
 
@@ -117,6 +128,7 @@ function Book(id, title, author, rating, pages, read) {
 
 window.addEventListener('load', displayBooks(myLibrary));
 document.addEventListener('click', hideForm);
+booksList.addEventListener('click', setRead);
 booksList.addEventListener('click', deleteBook);
 addBookButton.addEventListener('click', showForm);
 confirmButton.addEventListener('click', confirmAdd);
