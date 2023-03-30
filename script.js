@@ -1,5 +1,9 @@
+'use strict';
+
+let index = 2;
 let myLibrary = [
   {
+    id: 0,
     title: 'The Hobbit',
     author: 'J.R.R. Tolkien',
     rating: '5',
@@ -7,6 +11,7 @@ let myLibrary = [
     read: true,
   },
   {
+    id: 1,
     title: '1984',
     author: 'George Orwell',
     rating: '0',
@@ -25,16 +30,23 @@ const authorInput = document.querySelector('#author');
 const pagesInput = document.querySelector('#pages');
 const ratingInput = document.querySelector('#rating');
 const readCheckbox = document.querySelector('#read');
+const deleteBtnText = '-';
 
 const displayBooks = function (list) {
   const books = list.reduce((fragment, curBook) => {
     const tr = document.createElement('tr');
+    const button = document.createElement('button');
+
+    button.dataset.id = curBook.id;
+    button.setAttribute('type', 'button');
     tr.appendChild(document.createElement('td')).textContent = curBook.title;
     tr.appendChild(document.createElement('td')).textContent = curBook.author;
     tr.appendChild(document.createElement('td')).textContent = curBook.rating;
     tr.appendChild(document.createElement('td')).textContent = curBook.pages;
-    tr.appendChild(document.createElement('td')).textContent = curBook.read;
+    tr.appendChild(document.createElement('td')).textContent = curBook.read ? 'Read' : 'Not Read';
+    tr.appendChild(document.createElement('td')).appendChild(button).textContent = deleteBtnText;
     fragment.appendChild(tr);
+
     return fragment;
   }, document.createDocumentFragment());
 
@@ -60,6 +72,7 @@ const hideForm = function (e) {
 
 const confirmAdd = function () {
   myLibrary.push(new Book(
+    index++,
     titleInput.value,
     authorInput.value,
     ratingInput.value,
@@ -67,6 +80,7 @@ const confirmAdd = function () {
     readCheckbox.checked,
   ));
   displayBooks(myLibrary.slice(-1));
+  addBookForm.classList.remove('show-form');
   resetForm();
 }
 
@@ -83,7 +97,17 @@ const resetForm = function () {
   readCheckbox.checked = false;
 }
 
-function Book(title, author, rating, pages, read) {
+const deleteBook = function (e) {
+  if (e.target.textContent !== deleteBtnText) return;
+
+  const id = myLibrary.findIndex(book => book.id === parseInt(e.target.dataset.id, 10));
+  const deleteTarget = e.target.closest('tr');
+  booksList.removeChild(deleteTarget);
+  myLibrary.splice(id, 1);
+}
+
+function Book(id, title, author, rating, pages, read) {
+  this.id = id;
   this.title = title;
   this.author = author;
   this.rating = rating;
@@ -93,6 +117,7 @@ function Book(title, author, rating, pages, read) {
 
 window.addEventListener('load', displayBooks(myLibrary));
 document.addEventListener('click', hideForm);
+booksList.addEventListener('click', deleteBook);
 addBookButton.addEventListener('click', showForm);
 confirmButton.addEventListener('click', confirmAdd);
 cancelButton.addEventListener('click', cancelAdd);
