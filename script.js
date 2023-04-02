@@ -1,6 +1,5 @@
 'use strict';
 
-let index = 2;
 const myLibrary = [
   {
     id: 0,
@@ -18,8 +17,17 @@ const myLibrary = [
     pages: '368',
     read: false,
   },
+  {
+    id: 2,
+    title: 'JavaScript: The Good Parts',
+    author: 'Douglas Crockford',
+    ISBN: '0596517742',
+    pages: '176',
+    read: true,
+  },
 ];
 
+let index = myLibrary.length;
 const booksList = document.querySelector('.books-list');
 const addBookButton = document.querySelector('button.add-book');
 const confirmButton = document.querySelector('.confirm');
@@ -74,16 +82,13 @@ const showForm = function () {
 };
 
 const hideForm = function (e) {
-  if (!addBookForm.classList.contains('show-form')) return;
-
-  const formRect = addBookForm.getBoundingClientRect();
-  const inFormRectX = e.clientX > formRect.x && e.clientX < (formRect.x + formRect.width);
-  const inFormRectY = e.clientY > formRect.y && e.clientY < (formRect.y + formRect.height);
-
-  if (!(inFormRectX && inFormRectY)) {
-    addBookForm.classList.remove('show-form');
-    resetForm();
+  if (e.currentTarget === addBookButton || e.currentTarget === addBookForm) {
+    e.stopPropagation();
+    return;
   }
+
+  addBookForm.classList.remove('show-form');
+  resetForm();
 }
 
 const removeEmptyRow = function () {
@@ -138,7 +143,7 @@ const createEmptyRow = function () {
 
   booksList.appendChild(document.createElement('tr'))
     .appendChild(td)
-    .appendChild(document.createTextNode('It\'s empty here...please add some books'));
+    .appendChild(document.createTextNode('It\'s a little empty here...please add some books'));
 }
 
 const deleteBook = function (e) {
@@ -165,8 +170,11 @@ function Book(id, title, author, rating, pages, read) {
 
 window.addEventListener('load', displayBooks(myLibrary));
 document.addEventListener('click', hideForm);
+document.addEventListener('keydown', hideForm);
 booksList.addEventListener('click', setRead);
 booksList.addEventListener('click', deleteBook);
 addBookButton.addEventListener('click', showForm);
+addBookButton.addEventListener('click', hideForm);
+addBookForm.addEventListener('click', hideForm);
 confirmButton.addEventListener('click', confirmAdd);
 cancelButton.addEventListener('click', cancelAdd);

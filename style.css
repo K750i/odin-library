@@ -12,6 +12,7 @@
   --accent2: #E7AD99;
   --accent3: #495867;
   --accent4: #CE796B;
+  --warning: hsl(0, 70%, 40%);
 }
 
 body {
@@ -34,17 +35,17 @@ button {
 }
 
 .table-wrapper {
-  overflow: hidden;
   width: 900px;
   max-width: 100%;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
   margin: auto;
 }
 
 table {
   width: 100%;
+  overflow: hidden;
   border-collapse: collapse;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   border-bottom: solid var(--accent);
   margin-bottom: 16px;
   font-size: 1.1rem;
@@ -69,7 +70,7 @@ td {
   font-style: italic;
 }
 
-tbody>tr:nth-child(even) {
+tbody>tr:nth-child(odd) {
   background: var(--accent2);
 }
 
@@ -95,10 +96,14 @@ table td:last-of-type>button {
   vertical-align: middle;
 }
 
+.button-wrapper {
+  position: relative;
+}
+
 .add-book-form {
   display: none;
   position: absolute;
-  background: white;
+  background: ghostwhite;
   padding: 16px 32px;
   box-shadow: 2px 2px 10px hsla(0, 0%, 0%, 0.3);
   border-radius: 4px;
@@ -117,6 +122,8 @@ table td:last-of-type>button {
 
 .add-book-form.show-form {
   display: block;
+  top: -150px;
+  left: 150px;
 }
 
 .form-main label {
@@ -143,7 +150,7 @@ table td:last-of-type>button {
 }
 
 .form-buttons>button.cancel {
-  color: var(--accent3);
+  color: var(--warning);
   background: none;
   border: none;
   margin-right: 16px;
