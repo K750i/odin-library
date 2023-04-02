@@ -4,9 +4,9 @@ let index = 2;
 let myLibrary = [
   {
     id: 0,
-    title: 'The Hobbit',
+    title: 'The Hobbit: Illustrated Edition',
     author: 'J.R.R. Tolkien',
-    rating: '5',
+    ISBN: '0544174224',
     pages: '366',
     read: true,
   },
@@ -14,7 +14,7 @@ let myLibrary = [
     id: 1,
     title: '1984',
     author: 'George Orwell',
-    rating: '0',
+    ISBN: '9780451524935',
     pages: '368',
     read: false,
   },
@@ -28,26 +28,39 @@ const addBookForm = document.querySelector('.add-book-form');
 const titleInput = document.querySelector('#title');
 const authorInput = document.querySelector('#author');
 const pagesInput = document.querySelector('#pages');
-const ratingInput = document.querySelector('#rating');
+const isbnInput = document.querySelector('#isbn');
 const readCheckbox = document.querySelector('#read');
-const deleteBtnText = '-';
+
+const toggleReadClass = function (elt, readStatus) {
+  if (readStatus) {
+    elt.textContent = 'Read';
+    elt.classList.add('read');
+  } else {
+    elt.textContent = 'Not Read';
+    elt.classList.remove('read');
+  }
+}
 
 const displayBooks = function (list) {
-  const books = list.reduce((fragment, { id, title, author, rating, pages, read }) => {
-    const tr = document.createElement('tr');
+  const books = list.reduce((fragment, { id, title, author, ISBN, pages, read }) => {
     const readButton = document.createElement('button');
-    const delButton = document.createElement('button');
-
     readButton.dataset.id = id;
     readButton.setAttribute('type', 'button');
+    toggleReadClass(readButton, read);
+
+    const delButton = document.createElement('button');
+    const img = document.createElement('img');
     delButton.dataset.id = id;
     delButton.setAttribute('type', 'button');
+    img.src = './images/x-circle.svg';
+
+    const tr = document.createElement('tr');
     tr.appendChild(document.createElement('td')).textContent = title;
     tr.appendChild(document.createElement('td')).textContent = author;
-    tr.appendChild(document.createElement('td')).textContent = rating;
+    tr.appendChild(document.createElement('td')).textContent = ISBN;
     tr.appendChild(document.createElement('td')).textContent = pages;
     tr.appendChild(document.createElement('td')).appendChild(readButton).textContent = read ? 'Read' : 'Not Read';
-    tr.appendChild(document.createElement('td')).appendChild(delButton).textContent = deleteBtnText;
+    tr.appendChild(document.createElement('td')).appendChild(delButton).appendChild(img);
     fragment.appendChild(tr);
 
     return fragment;
@@ -78,7 +91,7 @@ const confirmAdd = function () {
     index++,
     titleInput.value,
     authorInput.value,
-    ratingInput.value,
+    isbnInput.value,
     pagesInput.value,
     readCheckbox.checked,
   ));
@@ -95,7 +108,7 @@ const cancelAdd = function () {
 const resetForm = function () {
   titleInput.value = '';
   authorInput.value = '';
-  ratingInput.value = '';
+  isbnInput.value = '';
   pagesInput.value = '';
   readCheckbox.checked = false;
 }
@@ -105,13 +118,15 @@ const setRead = function (e) {
 
   const targetBook = myLibrary.find(book => book.id === parseInt(e.target.dataset.id, 10));
   targetBook.read = !targetBook.read;
-  e.target.textContent = targetBook.read ? 'Read' : 'Not Read';
+  toggleReadClass(e.target, targetBook.read);
 }
 
 const deleteBook = function (e) {
-  if (e.target.textContent !== deleteBtnText) return;
+  if (!e.target.matches('img[src*="x-circle"]')) return;
 
-  const id = myLibrary.findIndex(book => book.id === parseInt(e.target.dataset.id, 10));
+  const id = myLibrary.findIndex(
+    book => book.id === parseInt(e.target.parentElement.dataset.id, 10)
+  );
   const deleteTarget = e.target.closest('tr');
   booksList.removeChild(deleteTarget);
   myLibrary.splice(id, 1);

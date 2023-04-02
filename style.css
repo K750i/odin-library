@@ -6,6 +6,82 @@
   margin: 0;
 }
 
+:root {
+  --bg: #ECC8AF;
+  --accent: #C18C5D;
+  --accent2: #E7AD99;
+  --accent3: #495867;
+  --accent4: #CE796B;
+}
+
+body {
+  background: var(--bg);
+  font-family: "Asap", sans-serif;
+}
+
+header {
+  color: var(--accent3);
+  font-weight: 700;
+  font-size: 3.5rem;
+  text-align: center;
+  padding: 0.8em;
+  text-transform: uppercase;
+}
+
+.table-wrapper {
+  overflow: hidden;
+  width: 900px;
+  max-width: 100%;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom: solid var(--accent);
+  margin: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.1rem;
+  font-weight: 100;
+}
+
+thead {
+  background: var(--accent);
+  color: white;
+  text-align: left;
+}
+
+th,
+td {
+  padding: 1rem;
+}
+
+tbody>tr:nth-child(odd) {
+  background: var(--accent2);
+}
+
+table td:not(:last-of-type)>button {
+  min-width: 110px;
+  font-size: 1rem;
+  padding: 8px 16px;
+  border: 1px solid;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+table td:not(:last-of-type)>button.read {
+  background: var(--accent4);
+  border: 1px solid hsl(24, 100%, 30%);
+  color: white;
+}
+
+table td:last-of-type>button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
 .add-book-form {
   display: none;
   position: absolute;

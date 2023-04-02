@@ -5,27 +5,33 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Asap:wght@100;400;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
   <title>Library</title>
 </head>
 
 <body>
-  <header>My Reading Corner</header>
+  <header>My Reading Nook</header>
   <main>
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Author</th>
-          <th>Rating</th>
-          <th>Pages</th>
-          <th>Progress</th>
-        </tr>
-      </thead>
-      <tbody class="books-list">
-      </tbody>
-    </table>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>ISBN</th>
+            <th>Pages</th>
+            <th colspan="2">Progress</th>
+          </tr>
+        </thead>
+        <tbody class="books-list">
+        </tbody>
+      </table>
+    </div>
     <div class="button-wrapper">
       <div class="add-book-form">
         <div class="form-header">
@@ -38,7 +44,7 @@
           </p>
           <p><label for="author">Author <input type="text" id="author"
                 placeholder="Mark Twain"></label></p>
-          <p><label for="rating">Rating <input type="number" id="rating" min="0" max="5"></label>
+          <p><label for="isbn">ISBN <input type="text" id="isbn" placeholder="0544174224"></label>
           </p>
           <p><label for="pages">Pages <input type="tel" id="pages" min="1"></label></p>
           <p><label for="read"><input type="checkbox" id="read"> Read</label></p>
