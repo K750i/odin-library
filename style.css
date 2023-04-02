@@ -16,16 +16,21 @@
 
 body {
   background: var(--bg);
+  padding: 8px;
   font-family: "Asap", sans-serif;
 }
 
 header {
   color: var(--accent3);
   font-weight: 700;
-  font-size: 3.5rem;
+  font-size: clamp(2rem, 4vw, 4rem);
   text-align: center;
-  padding: 0.8em;
-  text-transform: uppercase;
+  padding: 0.5em;
+  letter-spacing: -1.5px;
+}
+
+button {
+  cursor: pointer;
 }
 
 .table-wrapper {
@@ -34,13 +39,14 @@ header {
   max-width: 100%;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
-  border-bottom: solid var(--accent);
   margin: auto;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  border-bottom: solid var(--accent);
+  margin-bottom: 16px;
   font-size: 1.1rem;
   font-weight: 100;
 }
@@ -56,7 +62,14 @@ td {
   padding: 1rem;
 }
 
-tbody>tr:nth-child(odd) {
+.emptyrow {
+  color: var(--accent3);
+  font-family: "Times New Roman", serif;
+  text-align: center;
+  font-style: italic;
+}
+
+tbody>tr:nth-child(even) {
   background: var(--accent2);
 }
 
@@ -65,8 +78,8 @@ table td:not(:last-of-type)>button {
   font-size: 1rem;
   padding: 8px 16px;
   border: 1px solid;
-  border-radius: 16px;
-  cursor: pointer;
+  border-radius: 8px;
+  color: var(--accent3);
 }
 
 table td:not(:last-of-type)>button.read {
@@ -78,19 +91,75 @@ table td:not(:last-of-type)>button.read {
 table td:last-of-type>button {
   background: transparent;
   border: none;
-  cursor: pointer;
-  opacity: 0.6;
+  opacity: 0.4;
+  vertical-align: middle;
 }
 
 .add-book-form {
   display: none;
   position: absolute;
   background: white;
-  padding: 20px;
+  padding: 16px 32px;
   box-shadow: 2px 2px 10px hsla(0, 0%, 0%, 0.3);
   border-radius: 4px;
+  overflow: hidden;
+}
+
+.form-header {
+  background: var(--accent3);
+  padding: 16px 32px;
+  margin: -16px -32px;
+  margin-bottom: 16px;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 700;
 }
 
 .add-book-form.show-form {
   display: block;
+}
+
+.form-main label {
+  display: block;
+  color: var(--accent3);
+  font-size: 0.9rem;
+}
+
+.form-main>p+p {
+  margin-top: 8px;
+}
+
+.form-main input:not([type="checkbox"]) {
+  height: 32px;
+  min-width: 250px;
+  background: hsla(210, 17%, 35%, 0.3);
+  padding: 8px;
+  border: none;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form-buttons>button.cancel {
+  color: var(--accent3);
+  background: none;
+  border: none;
+  margin-right: 16px;
+}
+
+.add-book,
+.form-buttons>button.confirm {
+  color: white;
+  background: var(--accent3);
+  border: none;
+  border-radius: 4px;
+  padding: 8px;
+  font-weight: 700;
+}
+
+.add-book {
+  font-size: 1.1rem;
+  padding: 16px;
 }

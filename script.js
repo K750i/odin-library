@@ -1,7 +1,7 @@
 'use strict';
 
 let index = 2;
-let myLibrary = [
+const myLibrary = [
   {
     id: 0,
     title: 'The Hobbit: Illustrated Edition',
@@ -86,7 +86,15 @@ const hideForm = function (e) {
   }
 }
 
+const removeEmptyRow = function () {
+  const target = document.querySelector('table').rows[1];
+
+  document.querySelector('tbody').removeChild(target);
+}
+
 const confirmAdd = function () {
+  if (myLibrary.length === 0) removeEmptyRow();
+
   myLibrary.push(new Book(
     index++,
     titleInput.value,
@@ -121,6 +129,18 @@ const setRead = function (e) {
   toggleReadClass(e.target, targetBook.read);
 }
 
+const createEmptyRow = function () {
+  const numOfColumns = document.querySelector('table').rows[0].cells.length;
+  const td = document.createElement('td');
+
+  td.setAttribute('colspan', numOfColumns);
+  td.classList.add('emptyrow');
+
+  booksList.appendChild(document.createElement('tr'))
+    .appendChild(td)
+    .appendChild(document.createTextNode('It\'s empty here...please add some books'));
+}
+
 const deleteBook = function (e) {
   if (!e.target.matches('img[src*="x-circle"]')) return;
 
@@ -130,6 +150,8 @@ const deleteBook = function (e) {
   const deleteTarget = e.target.closest('tr');
   booksList.removeChild(deleteTarget);
   myLibrary.splice(id, 1);
+
+  if (myLibrary.length === 0) createEmptyRow();
 }
 
 function Book(id, title, author, rating, pages, read) {
