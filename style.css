@@ -31,6 +31,14 @@ header {
   letter-spacing: -1.5px;
 }
 
+footer p {
+  margin: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
 button {
   cursor: pointer;
 }
@@ -64,6 +72,16 @@ td {
   padding: 1rem;
 }
 
+tr>th:first-of-type,
+tr>td:first-of-type {
+  padding-left: 32px;
+  font-weight: 700;
+}
+
+tr>td:first-of-type {
+  color: var(--accent3);
+}
+
 .emptyrow {
   color: var(--accent3);
   font-family: "Times New Roman", serif;
@@ -76,7 +94,7 @@ tbody>tr:nth-child(odd) {
 }
 
 table td:not(:last-of-type)>button {
-  min-width: 110px;
+  width: 103px;
   font-size: 1rem;
   padding: 8px 16px;
   border: 1px solid;
