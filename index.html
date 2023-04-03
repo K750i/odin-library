@@ -36,30 +36,32 @@
           <div class="form-header">
             <p class="title">Add a New Book</p>
           </div>
-          <div class="form-main">
-            <p>
-              <label for="title">Title*</label>
-              <input type="text" id="title" placeholder="The Adventures of Tom Sawyer" required>
-            </p>
-            <p>
-              <label for="author">Author</label>
-              <input type="text" id="author" placeholder="Mark Twain">
-            </p>
-            <p>
-              <label for="isbn">ISBN</label>
-              <input type="text" id="isbn" placeholder="0544174224">
-            </p>
-            <p>
-              <label for="pages">Pages</label>
-              <input type="tel" id="pages" placeholder="123">
-            </p>
-            <p>
-              <label for="read"><input type="checkbox" id="read"> Read</label>
-            </p>
-          </div>
+          <form id="addbook" action="">
+            <div class="form-main">
+              <p>
+                <label for="title">Title*</label>
+                <input type="text" id="title" placeholder="The Adventures of Tom Sawyer">
+              </p>
+              <p>
+                <label for="author">Author</label>
+                <input type="text" id="author" placeholder="Mark Twain">
+              </p>
+              <p>
+                <label for="isbn">ISBN</label>
+                <input type="text" id="isbn" placeholder="0544174224">
+              </p>
+              <p>
+                <label for="pages">Pages</label>
+                <input type="tel" id="pages" placeholder="123">
+              </p>
+              <p>
+                <label for="read"><input type="checkbox" id="read"> Read</label>
+              </p>
+            </div>
+          </form>
           <div class="form-buttons">
             <button type="button" class="cancel">Cancel</button>
-            <button type="button" class="confirm">Confirm</button>
+            <button form="addbook" type="submit" class="confirm">Confirm</button>
           </div>
         </div>
         <button type="button" class="add-book">Add a book</button>

@@ -32,7 +32,8 @@ const booksList = document.querySelector('.books-list');
 const addBookButton = document.querySelector('button.add-book');
 const confirmButton = document.querySelector('.confirm');
 const cancelButton = document.querySelector('.cancel');
-const addBookForm = document.querySelector('.add-book-form');
+const addBookWindow = document.querySelector('.add-book-form');
+const addBookForm = document.querySelector('#addbook');
 const titleInput = document.querySelector('#title');
 const authorInput = document.querySelector('#author');
 const pagesInput = document.querySelector('#pages');
@@ -84,20 +85,20 @@ const setButtonStyle = function (variable, value) {
 const showForm = function () {
   setButtonStyle('--color', 'var(--normal)');
   setButtonStyle('--bgcolor', 'var(--accent3)');
-  addBookForm.classList.add('show-form');
+  addBookWindow.classList.add('show-form');
   titleInput.focus();
 };
 
 const revert = function () {
   setButtonStyle('--color', 'var(--accent3)');
   setButtonStyle('--bgcolor', 'transparent');
-  addBookForm.classList.remove('show-form');
+  addBookWindow.classList.remove('show-form');
   resetForm();
 }
 
 const hideForm = function (e) {
   if (e.currentTarget === addBookButton
-    || e.currentTarget === addBookForm) {
+    || e.currentTarget === addBookWindow) {
     e.stopPropagation();
     return;
   }
@@ -111,8 +112,10 @@ const removeEmptyRow = function () {
   document.querySelector('tbody').removeChild(target);
 }
 
-const confirmAdd = function () {
-  if (!titleInput.validity.valid) {
+const confirmAdd = function (e) {
+  e.preventDefault();
+
+  if (titleInput.value.trim() === '') {
     titleInput.previousElementSibling.setAttribute('data-error', 'Please enter a book title');
     titleInput.focus();
     return;
@@ -192,7 +195,8 @@ booksList.addEventListener('click', setRead);
 booksList.addEventListener('click', deleteBook);
 addBookButton.addEventListener('click', showForm);
 addBookButton.addEventListener('click', hideForm);
-addBookForm.addEventListener('click', hideForm);
-confirmButton.addEventListener('click', confirmAdd);
+addBookWindow.addEventListener('click', hideForm);
+// confirmButton.addEventListener('submit', confirmAdd);
+addBookForm.addEventListener('submit', confirmAdd)
 cancelButton.addEventListener('click', revert);
 titleInput.addEventListener('input', () => titleInput.previousElementSibling.setAttribute('data-error', ''));
