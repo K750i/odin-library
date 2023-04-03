@@ -77,18 +77,32 @@ const displayBooks = function (list) {
   booksList.appendChild(books);
 };
 
-const showForm = function () {
-  addBookForm.classList.add('show-form');
+const setButtonStyle = function (variable, value) {
+  addBookButton.style.setProperty(variable, value);
 };
 
+const showForm = function () {
+  setButtonStyle('--color', 'var(--normal)');
+  setButtonStyle('--bgcolor', 'var(--accent3)');
+  addBookForm.classList.add('show-form');
+  titleInput.focus();
+};
+
+const revert = function () {
+  setButtonStyle('--color', 'var(--accent3)');
+  setButtonStyle('--bgcolor', 'transparent');
+  addBookForm.classList.remove('show-form');
+  resetForm();
+}
+
 const hideForm = function (e) {
-  if (e.currentTarget === addBookButton || e.currentTarget === addBookForm) {
+  if (e.currentTarget === addBookButton
+    || e.currentTarget === addBookForm) {
     e.stopPropagation();
     return;
   }
 
-  addBookForm.classList.remove('show-form');
-  resetForm();
+  revert();
 }
 
 const removeEmptyRow = function () {
@@ -98,6 +112,12 @@ const removeEmptyRow = function () {
 }
 
 const confirmAdd = function () {
+  if (!titleInput.validity.valid) {
+    titleInput.previousElementSibling.setAttribute('data-error', 'Please enter a book title');
+    titleInput.focus();
+    return;
+  }
+
   if (myLibrary.length === 0) removeEmptyRow();
 
   myLibrary.push(new Book(
@@ -108,14 +128,10 @@ const confirmAdd = function () {
     pagesInput.value,
     readCheckbox.checked,
   ));
-  displayBooks(myLibrary.slice(-1));
-  addBookForm.classList.remove('show-form');
-  resetForm();
-}
 
-const cancelAdd = function () {
-  addBookForm.classList.remove('show-form');
-  resetForm();
+  displayBooks(myLibrary.slice(-1));
+
+  revert();
 }
 
 const resetForm = function () {
@@ -124,6 +140,7 @@ const resetForm = function () {
   isbnInput.value = '';
   pagesInput.value = '';
   readCheckbox.checked = false;
+  titleInput.previousElementSibling.setAttribute('data-error', '');
 }
 
 const setRead = function (e) {
@@ -170,11 +187,12 @@ function Book(id, title, author, rating, pages, read) {
 
 window.addEventListener('load', displayBooks(myLibrary));
 document.addEventListener('click', hideForm);
-document.addEventListener('keydown', hideForm);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') revert(); });
 booksList.addEventListener('click', setRead);
 booksList.addEventListener('click', deleteBook);
 addBookButton.addEventListener('click', showForm);
 addBookButton.addEventListener('click', hideForm);
 addBookForm.addEventListener('click', hideForm);
 confirmButton.addEventListener('click', confirmAdd);
-cancelButton.addEventListener('click', cancelAdd);
+cancelButton.addEventListener('click', revert);
+titleInput.addEventListener('input', () => titleInput.previousElementSibling.setAttribute('data-error', ''));

@@ -8,6 +8,7 @@
 
 :root {
   --bg: #ECC8AF;
+  --normal: ghostwhite;
   --accent: #C18C5D;
   --accent2: #E7AD99;
   --accent3: #495867;
@@ -54,7 +55,7 @@ table {
 
 thead {
   background: var(--accent);
-  color: white;
+  color: var(--normal);
   text-align: left;
 }
 
@@ -86,7 +87,7 @@ table td:not(:last-of-type)>button {
 table td:not(:last-of-type)>button.read {
   background: var(--accent4);
   border: 1px solid hsl(24, 100%, 30%);
-  color: white;
+  color: var(--normal);
 }
 
 table td:last-of-type>button {
@@ -101,35 +102,59 @@ table td:last-of-type>button {
 }
 
 .add-book-form {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 100ms ease-out;
   position: absolute;
-  background: ghostwhite;
+  background: var(--normal);
   padding: 16px 32px;
   box-shadow: 2px 2px 10px hsla(0, 0%, 0%, 0.3);
   border-radius: 4px;
-  overflow: hidden;
+}
+
+.add-book-form::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: -6px;
+  top: 46%;
+  width: 25px;
+  height: 25px;
+  transform: rotate(45deg);
+  background: var(--normal);
 }
 
 .form-header {
   background: var(--accent3);
+  border-radius: 4px;
   padding: 16px 32px;
   margin: -16px -32px;
   margin-bottom: 16px;
-  color: white;
+  color: var(--normal);
   font-size: 1.2rem;
   font-weight: 700;
 }
 
 .add-book-form.show-form {
-  display: block;
-  top: -150px;
-  left: 150px;
+  visibility: visible;
+  opacity: 1;
+  top: -160px;
+  left: 160px;
 }
 
 .form-main label {
   display: block;
   color: var(--accent3);
   font-size: 0.9rem;
+}
+
+.form-main label[for="title"]::after {
+  content: attr(data-error);
+  font-family: serif;
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--warning);
+  padding-left: 24px;
 }
 
 .form-main>p+p {
@@ -144,6 +169,10 @@ table td:last-of-type>button {
   border: none;
 }
 
+.form-main input:not([type="checkbox"])::placeholder {
+  opacity: 0.3;
+}
+
 .form-buttons {
   display: flex;
   justify-content: flex-end;
@@ -156,9 +185,8 @@ table td:last-of-type>button {
   margin-right: 16px;
 }
 
-.add-book,
 .form-buttons>button.confirm {
-  color: white;
+  color: var(--normal);
   background: var(--accent3);
   border: none;
   border-radius: 4px;
@@ -167,6 +195,18 @@ table td:last-of-type>button {
 }
 
 .add-book {
-  font-size: 1.1rem;
-  padding: 16px;
+  --color: var(--accent3);
+  --bgcolor: transparent;
+  font-size: 1.3rem;
+  padding: 8px 16px;
+  font-weight: 700;
+  color: var(--color);
+  border: solid var(--accent3);
+  border-radius: 8px;
+  background: var(--bgcolor);
+}
+
+.add-book:hover {
+  color: var(--normal);
+  background: var(--accent3);
 }
